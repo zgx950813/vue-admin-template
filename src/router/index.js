@@ -84,7 +84,7 @@ export const constantRoutes = [
       {
         path: 'index',
         name: 'Form',
-        component: () => import('@/views/form/index'),
+        component: () => import('@/views/dashboard'),
         meta: { title: 'Form', icon: 'form' }
       }
     ]
