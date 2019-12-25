@@ -33,7 +33,7 @@
     </el-form>
     <!-- <panel-group @handleSetLineChartData="handleSetLineChartData" /> -->
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData1" />
+      <!-- <line-chart /> -->
     </el-row>
     <el-row :gutter="32" style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <div class="dashboard-text">Subsidy Per Unit</div>
@@ -42,30 +42,40 @@
           <line-chart :chart-data="lineChartData1" />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <!-- <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData1" />
+          <line-chart  />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData1" />
+          <line-chart  />
         </div>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>
 
 <script>
-// import LineChart from './components/LineChart'
 import LineChart from './components/RunrateSupportLineChart'
 import { getCarMonthlyRunratePolicies } from '@/api/runrateSupport'
 
 const lineChartData = {
-  newVisitis: {
-    expectedData: [[80, 0], [90, 9500], [100, 10500], [110, 10500]],
-    actualData: [[80, 0], [90, 18500], [100, 19500], [110, 19500]]
-  }
+  name: ['LandRover Local L550 2018 200PS PURE', 'LandRover Local L550 2019 200PS PURE', 'LandRover Local L550 2018 240PS SE'],
+  xAxis: {
+    min: 80,
+    max: 110
+  },
+  yAxis: {
+    min: 0,
+    max: 20000
+  },
+  point: [
+    // 都是左闭右开
+    [[80, 0], [90, 9500], [100, 10500], [110, 10500]],
+    [[80, 0], [90, 18500], [100, 19500], [110, 19500]],
+    [[80, 0], [90, 14500], [100, 15500], [110, 15500]]
+  ]
 }
 
 export default {
@@ -74,7 +84,7 @@ export default {
   },
   data() {
     return {
-      lineChartData1: lineChartData.newVisitis,
+      lineChartData1: lineChartData,
       form: {
         year: new Date().getFullYear().toString(),
         options: [{
@@ -96,21 +106,8 @@ export default {
   },
   methods: {
     getPolicy() {
-      getCarMonthlyRunratePolicies(this.form.year, this.form.quarter).then(response => {
-        // 先取出response.car_policy的个数，即要在图中画几条线，本例中，虽然有12条线，但实际上各4条线重合，故不一样的3条线
-        var lineNumber = response.car_policy.length
-        // 再取出每个单元里的upper，lower和subsidy
-        for (var i = 0; i < lineNumber; i++) {
-          console.log(response.car_policy[i].policy.upper)
-          console.log(response.car_policy[i].policy.lower)
-          console.log(response.car_policy[i].policy.subsidy)
-        }
-        // response.car_policy.forEach(policy => {
-        //   console.log(policy.upper)
-        //   console.log(policy.lower)
-        //   console.log(policy.subsidy)
-        // })
-      })
+      // this.lineChartData = getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
+      return getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
     }
   }
 }

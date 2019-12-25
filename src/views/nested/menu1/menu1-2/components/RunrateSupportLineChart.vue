@@ -59,9 +59,30 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-      this.setOptions(this.chartData)
+      this.setPreOptions()
+      this.insertChartData(this.chartData)
     },
-    setOptions({ expectedData, actualData } = {}) {
+    insertChartData(data) {
+      var option = this.chart.getOption()
+      // console.log(option)
+      for (var i = 0; i < data.name.length; i++) {
+        option.legend[0].data.push(data.name[i])
+        option.series.push({
+          smooth: false,
+          type: 'line',
+          step: 'end',
+          symbolSize: 5,
+          name: data.name[i],
+          data: data.point[i]
+        })
+        option.xAxis[0].min = data.xAxis.min
+        option.xAxis[0].max = data.xAxis.max
+        option.yAxis[0].min = data.yAxis.min
+        option.yAxis[0].max = data.yAxis.max
+      }
+      this.chart.setOption(option)
+    },
+    setPreOptions() {
       this.chart.setOption({
         title: {
           text: 'Monthly Runrate Support StepLine',
@@ -75,8 +96,6 @@ export default {
         xAxis: {
           type: 'value',
           name: 'ACH%',
-          min: 70,
-          max: 110,
           axisTick: {
             show: true,
             alignWithLabel: true
@@ -93,8 +112,6 @@ export default {
         yAxis: {
           type: 'value',
           name: 'SUBSIDY',
-          min: 0,
-          max: 20000,
           axisTick: {
             show: true
           },
@@ -124,27 +141,9 @@ export default {
           right: '0%',
           top: '12%',
           type: 'scroll',
-          data: ['LandRover Local L550 2018 200PS PURE', 'LandRover Local L550 2019 200PS PURE']
+          data: []
         },
-        series: [
-          {
-            name: 'LandRover Local L550 2018 200PS PURE',
-            data: expectedData,
-            smooth: false,
-            type: 'line',
-            step: 'end',
-            symbolSize: 5
-
-          },
-          {
-            name: 'LandRover Local L550 2019 200PS PURE',
-            data: actualData,
-            smooth: false,
-            type: 'line',
-            step: 'end',
-            symbolSize: 5
-          }
-        ]
+        series: []
       })
     }
   }
