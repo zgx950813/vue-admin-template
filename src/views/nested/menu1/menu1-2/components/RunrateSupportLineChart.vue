@@ -28,7 +28,7 @@ export default {
     },
     chartData: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data() {
@@ -60,7 +60,7 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setPreOptions()
-      this.insertChartData(this.chartData)
+      // this.insertChartData(this.chartData)
     },
     insertChartData(data) {
       var option = this.chart.getOption()
@@ -124,7 +124,7 @@ export default {
         },
         grid: {
           left: '0%',
-          right: '5%',
+          right: '12%',
           bottom: '5%',
           top: '20%',
           containLabel: true

@@ -26,11 +26,12 @@
         </el-col>
 
         <el-col :span="8">
-          <el-button type="primary" plain @click="getPolicy()">Search</el-button>
+          <el-button type="primary" plain @click="fulfillRunrateChart">Search</el-button>
         </el-col>
 
       </div>
     </el-form>
+
     <!-- <panel-group @handleSetLineChartData="handleSetLineChartData" /> -->
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <!-- <line-chart /> -->
@@ -39,17 +40,17 @@
       <div class="dashboard-text">Subsidy Per Unit</div>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData1" />
+          <line-chart ref="chartModel" />
         </div>
       </el-col>
       <!-- <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <line-chart  />
+          <line-chart />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <line-chart  />
+          <line-chart />
         </div>
       </el-col> -->
     </el-row>
@@ -58,25 +59,8 @@
 
 <script>
 import LineChart from './components/RunrateSupportLineChart'
+import { getVersion } from '@/api/dashboard'
 import { getCarMonthlyRunratePolicies } from '@/api/runrateSupport'
-
-const lineChartData = {
-  name: ['LandRover Local L550 2018 200PS PURE', 'LandRover Local L550 2019 200PS PURE', 'LandRover Local L550 2018 240PS SE'],
-  xAxis: {
-    min: 80,
-    max: 110
-  },
-  yAxis: {
-    min: 0,
-    max: 20000
-  },
-  point: [
-    // 都是左闭右开
-    [[80, 0], [90, 9500], [100, 10500], [110, 10500]],
-    [[80, 0], [90, 18500], [100, 19500], [110, 19500]],
-    [[80, 0], [90, 14500], [100, 15500], [110, 15500]]
-  ]
-}
 
 export default {
   components: {
@@ -84,7 +68,6 @@ export default {
   },
   data() {
     return {
-      lineChartData1: lineChartData,
       form: {
         year: new Date().getFullYear().toString(),
         options: [{
@@ -105,9 +88,19 @@ export default {
     }
   },
   methods: {
-    getPolicy() {
-      // this.lineChartData = getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
-      return getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
+    async fulfillRunrateChart() {
+      // this.$http.get('/api/version')
+      //   .then((response) => {
+      //     console.log(response)
+      //     if (response.status === 200) {
+      //       console.log('OK')
+      //     } else {
+      //       console.log('Error')
+      //     }
+      //   })
+
+      var data = await getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
+      this.$refs.chartModel.insertChartData(data)
     }
   }
 }
