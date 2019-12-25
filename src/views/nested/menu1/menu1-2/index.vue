@@ -63,8 +63,8 @@ import { getCarMonthlyRunratePolicies } from '@/api/runrateSupport'
 
 const lineChartData = {
   newVisitis: {
-    expectedData: [[0.8, 9500], [0.9, 9500], [1, 10500], [1.1, 10500]],
-    actualData: [[0.8, 18500], [0.9, 18500], [1, 19500], [1.1, 19500]]
+    expectedData: [[80, 0], [90, 9500], [100, 10500], [110, 10500]],
+    actualData: [[80, 0], [90, 18500], [100, 19500], [110, 19500]]
   }
 }
 

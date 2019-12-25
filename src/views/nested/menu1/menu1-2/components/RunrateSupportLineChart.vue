@@ -63,102 +63,86 @@ export default {
     },
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
+        title: {
+          text: 'Monthly Runrate Support StepLine',
+          // subtext: '2019 Q4',
+          left: 'center',
+          top: '10px'
+          // textStyle: {
+          //   height: '56px'
+          // }
+        },
         xAxis: {
           type: 'value',
-          name: 'MONTHLY TARGET ACH%',
-          min: '60%',
-          max: '120%',
+          name: 'ACH%',
+          min: 70,
+          max: 110,
           axisTick: {
-            show: true
+            show: true,
+            alignWithLabel: true
           },
           splitLine: {
             show: false
+          },
+          axisLabel: {
+            show: true,
+            interval: 'auto',
+            formatter: '{value} %'
           }
         },
         yAxis: {
           type: 'value',
-          name: 'SUBSIDY SUPPORT',
-          min: 8000,
+          name: 'SUBSIDY',
+          min: 0,
           max: 20000,
           axisTick: {
             show: true
           },
           splitLine: {
             show: false
+          },
+          axisLabel: {
+            formatter: '￥{value}'
           }
         },
         grid: {
-          left: 10,
-          right: 10,
-          bottom: 20,
-          top: 30,
+          left: '0%',
+          right: '5%',
+          bottom: '5%',
+          top: '20%',
           containLabel: true
         },
-        // tooltip: {
-        //   trigger: 'axis',
-        //   axisPointer: {
-        //     type: 'cross'
-        //   },
-        //   padding: [5, 10]
-        // },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross',
-            animation: false,
-            label: {
-              backgroundColor: '#ccc',
-              borderColor: '#aaa',
-              borderWidth: 1,
-              shadowBlur: 0,
-              shadowOffsetX: 0,
-              shadowOffsetY: 0,
-              textStyle: {
-                color: '#222'
-              }
-            }
+            show: true,
+            type: 'cross'
           },
-          formatter: function(params) {
-            return params[2].name + '<br />' + params[2].value
-          }
+          padding: [5, 10]
         },
         legend: {
-          data: ['Model A', 'Model B']
+          right: '0%',
+          top: '12%',
+          type: 'scroll',
+          data: ['LandRover Local L550 2018 200PS PURE', 'LandRover Local L550 2019 200PS PURE']
         },
         series: [
           {
-            name: 'expected',
-            animationEasing: 'quadraticOut',
-            type: 'line',
-            smooth: true,
-            step: 'end',
+            name: 'LandRover Local L550 2018 200PS PURE',
             data: expectedData,
-            itemStyle: {
-              normal: {
-                color: '#FF005A',
-                lineStyle: {
-                  color: '#FF005A',
-                  width: 2
-                }
-              }
-            }
+            smooth: false,
+            type: 'line',
+            step: 'end',
+            symbolSize: 5
+
           },
           {
-            name: 'actual',
-            animationEasing: 'cubicInOut',
-            type: 'line',
-            smooth: true,
-            step: 'end',
+            name: 'LandRover Local L550 2019 200PS PURE',
             data: actualData,
-            itemStyle: {
-              normal: {
-                color: '#3888fa',
-                lineStyle: {
-                  color: '#3888fa',
-                  width: 2
-                }
-              }
-            }
+            smooth: false,
+            type: 'line',
+            step: 'end',
+            symbolSize: 5
           }
         ]
       })
