@@ -60,14 +60,13 @@ export default {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setPreOptions()
-      // this.insertChartData(this.chartData)
     },
     insertChartData(data) {
-      var option = this.chart.getOption()
-      // console.log(option)
+      var legend_data = []
+      var series = []
       for (var i = 0; i < data.name.length; i++) {
-        option.legend[0].data.push(data.name[i])
-        option.series.push({
+        legend_data.push(data.name[i])
+        series.push({
           smooth: false,
           type: 'line',
           step: 'end',
@@ -75,12 +74,21 @@ export default {
           name: data.name[i],
           data: data.point[i]
         })
-        option.xAxis[0].min = data.xAxis.min
-        option.xAxis[0].max = data.xAxis.max
-        option.yAxis[0].min = data.yAxis.min
-        option.yAxis[0].max = data.yAxis.max
       }
-      this.chart.setOption(option)
+      this.chart.setOption({
+        xAxis: {
+          min: data.xAxis.min,
+          max: data.xAxis.max
+        },
+        yAxis: {
+          min: data.yAxis.min,
+          max: data.yAxis.max
+        },
+        legend: {
+          data: legend_data
+        },
+        series: series
+      })
     },
     setPreOptions() {
       this.chart.setOption({
@@ -135,6 +143,7 @@ export default {
             show: true,
             type: 'cross'
           },
+          position: ['50%', '50%'],
           padding: [5, 10]
         },
         legend: {

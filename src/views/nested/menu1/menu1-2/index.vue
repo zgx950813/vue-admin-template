@@ -33,9 +33,9 @@
     </el-form>
 
     <!-- <panel-group @handleSetLineChartData="handleSetLineChartData" /> -->
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <!-- <line-chart /> -->
-    </el-row>
+    <!-- <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <line-chart />
+    </el-row> -->
     <el-row :gutter="32" style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <div class="dashboard-text">Subsidy Per Unit</div>
       <el-col :xs="24" :sm="24" :lg="8">
@@ -54,17 +54,30 @@
         </div>
       </el-col> -->
     </el-row>
+    <div>
+
+      <el-row :gutter="32" style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+        <div style="float:right;padding:12px 64px 0;margin-bottom:24px;">
+          <el-button type="primary" plain @click="calculateAch">Submit</el-button>
+        </div>
+        <div class="chart-wrapper">
+          <input-table ref="runrateTable" />
+        </div>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
 import LineChart from './components/RunrateSupportLineChart'
-import { getVersion } from '@/api/dashboard'
+import InputTable from './components/InputTable'
+// import { getVersion } from '@/api/dashboard'
 import { getCarMonthlyRunratePolicies } from '@/api/runrateSupport'
 
 export default {
   components: {
-    LineChart
+    LineChart,
+    InputTable
   },
   data() {
     return {
@@ -98,9 +111,11 @@ export default {
       //       console.log('Error')
       //     }
       //   })
-
       var data = await getCarMonthlyRunratePolicies(this.form.year, this.form.quarter)
       this.$refs.chartModel.insertChartData(data)
+    },
+    async calculateAch() {
+      console.log(this.$refs.runrateTable.calculate())
     }
   }
 }
